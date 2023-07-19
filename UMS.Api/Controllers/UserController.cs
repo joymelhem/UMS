@@ -55,4 +55,14 @@ public class UserController : ControllerBase
         }
         return BadRequest("Failed to register Teacher Per Course.");
     }
+    [HttpPost("Add Teacher Per Course per Session Time")]
+    public async Task<IActionResult> AddTeacherPerCoursePerSessionTime([FromBody] AddTeacherPerCoursePerSessionTimeCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result)
+        {
+            return Ok("Teacher Per Course Per Session Time registered successfully.");
+        }
+        return BadRequest("Failed to register Teacher Per Course Per Session Time.");
+    }
 }

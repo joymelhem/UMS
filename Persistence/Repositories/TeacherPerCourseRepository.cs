@@ -13,6 +13,10 @@ public class TeacherPerCourseRepository : ITeacherPerCourseRepository
     {
         _postgresContext = postgresContext;
     }
+    public async Task<TeacherPerCourse> GetById(long id)
+    {
+        return await _postgresContext.TeacherPerCourses.FindAsync(id);
+    }
 
     public void Add(TeacherPerCourse teacherPerCourse)
     {

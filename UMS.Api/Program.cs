@@ -16,6 +16,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ISessionTimeRepository, SessionTimeRepository>();
 builder.Services.AddTransient<IClassEnrollmentRepository, ClassEnrollmentRepository>();
 builder.Services.AddTransient<ITeacherPerCourseRepository, TeacherPerCourseRepository>();
+builder.Services.AddTransient<ITeacherPerCoursePerSessionTimeRepository, TeacherPerCoursePerSessionTimeRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetByIdQueryHandler>(
 ));
 builder.Services.AddDbContext<PostgresContext>();

@@ -12,6 +12,10 @@ public class SessionTimeRepository : ISessionTimeRepository
     {
         _postgresContext = postgresContext;
     }
+    public async Task<SessionTime> GetById(long id)
+    {
+        return await _postgresContext.SessionTimes.FindAsync(id);
+    }
 
     public void Add(SessionTime sessionTime)
     {
