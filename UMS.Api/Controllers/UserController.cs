@@ -65,4 +65,15 @@ public class UserController : ControllerBase
         }
         return BadRequest("Failed to register Teacher Per Course Per Session Time.");
     }
+    
+    [HttpPost("Enroll in Class")]
+    public async Task<IActionResult> AddClassEnrollment([FromBody] AddClassEnrollmentCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result)
+        {
+            return Ok("Enrollment registered successfully.");
+        }
+        return BadRequest("Failed to register Enrollment.");
+    }
 }
