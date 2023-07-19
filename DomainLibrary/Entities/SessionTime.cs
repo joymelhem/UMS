@@ -11,4 +11,11 @@ public partial class SessionTime
     public int Duration { get; set; }
 
     public virtual ICollection<TeacherPerCoursePerSessionTime> TeacherPerCoursePerSessionTimes { get; set; } = new List<TeacherPerCoursePerSessionTime>();
+
+    public SessionTime(DateTime startTime, DateTime endTime, int duration)
+    {
+        StartTime = startTime;
+        EndTime = endTime;
+        Duration = duration;
+    }
 }

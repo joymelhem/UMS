@@ -25,16 +25,24 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Course")]
-    public async Task<IActionResult> CreateCourse([FromBody] AddCourseCommand request)
+    public async Task<IActionResult> AddCourse([FromBody] AddCourseCommand request)
     {
         var result = await _mediator.Send(request);
         if (result)
         {
             return Ok("Course created successfully.");
         }
-        else
-        {
-            return BadRequest("Failed to create course.");
-        }
+        return BadRequest("Failed to create course.");
     }
+    [HttpPost("Add Session Time")]
+    public async Task<IActionResult> AddSessionTime([FromBody] AddSessionTimeCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result)
+        {
+            return Ok("Session Time created successfully.");
+        }
+        return BadRequest("Failed to create Session Time.");
+    }
+    
 }

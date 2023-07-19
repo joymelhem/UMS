@@ -16,7 +16,6 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ISessionTimeRepository, SessionTimeRepository>();
 builder.Services.AddTransient<IClassEnrollmentRepository, ClassEnrollmentRepository>();
 builder.Services.AddTransient<ITeacherPerCourseRepository, TeacherPerCourseRepository>();
-
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetByIdQueryHandler>(
 ));
 builder.Services.AddDbContext<PostgresContext>();
@@ -24,7 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
