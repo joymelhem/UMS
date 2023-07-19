@@ -45,4 +45,14 @@ public class UserController : ControllerBase
         return BadRequest("Failed to create Session Time.");
     }
     
+    [HttpPost("Add Teacher Per Course")]
+    public async Task<IActionResult> AddTeacherPerCourse([FromBody] AddTeacherPerCourseCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result)
+        {
+            return Ok("Teacher Per Course registered successfully.");
+        }
+        return BadRequest("Failed to register Teacher Per Course.");
+    }
 }
