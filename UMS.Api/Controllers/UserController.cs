@@ -2,7 +2,9 @@ using App.Commands;
 using App.Queries;
 using DomainLibrary.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace UMS.Api.Controllers;
 
@@ -18,6 +20,7 @@ public class UserController : ControllerBase
 
     }
     [HttpGet("{id}")]
+    [EnableQuery]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetByIdQuery(id));
@@ -25,6 +28,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Course")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddCourse([FromBody] AddCourseCommand request)
     {
         var result = await _mediator.Send(request);

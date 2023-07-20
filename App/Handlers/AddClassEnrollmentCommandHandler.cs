@@ -22,19 +22,19 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
 
     public async Task<bool> Handle(AddClassEnrollmentCommand request, CancellationToken cancellationToken)
     {
-        var teacherPerCourse = await _teacherPerCourseRepository.GetByCourseId(request.CourseId);
+        var course = await _teacherPerCourseRepository.GetByCourseId(request.CourseId);
         var student = await _userRepository.GetById(request.StudentId);
-        if (teacherPerCourse == null || student == null)
+        if (course == null || student == null)
         {
             return false;
         }
         var dateNow = DateOnly.FromDateTime(DateTime.Now); 
-        if (dateNow >= teacherPerCourse.EnrolmentDateRange.Value.LowerBound &&
-                                                               dateNow <= teacherPerCourse.EnrolmentDateRange.Value.UpperBound)
+        if (dateNow >= course.EnrolmentDateRange.Value.LowerBound &&
+                                                               dateNow <= course.EnrolmentDateRange.Value.UpperBound)
         {
             var classEnrollment = new ClassEnrollment
             {
-                ClassId = teacherPerCourse.Id,
+                ClassId = course.Id,
                 StudentId = student.Id
             };
             _classEnrollmentRepository.Add(classEnrollment);
