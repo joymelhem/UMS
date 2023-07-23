@@ -12,8 +12,8 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
     private readonly IUserRepository _userRepository;
 
     public AddClassEnrollmentCommandHandler(IClassEnrollmentRepository classEnrollmentRepository,
-            ITeacherPerCourseRepository teacherPerCourseRepository,
-            IUserRepository userRepository)
+        ITeacherPerCourseRepository teacherPerCourseRepository,
+        IUserRepository userRepository)
     {
         _classEnrollmentRepository = classEnrollmentRepository;
         _teacherPerCourseRepository = teacherPerCourseRepository;
@@ -28,9 +28,10 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
         {
             return false;
         }
-        var dateNow = DateOnly.FromDateTime(DateTime.Now); 
+
+        var dateNow = DateOnly.FromDateTime(DateTime.Now);
         if (dateNow >= course.EnrolmentDateRange.Value.LowerBound &&
-                                                               dateNow <= course.EnrolmentDateRange.Value.UpperBound)
+            dateNow <= course.EnrolmentDateRange.Value.UpperBound)
         {
             var classEnrollment = new ClassEnrollment
             {
@@ -39,9 +40,10 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
             };
             _classEnrollmentRepository.Add(classEnrollment);
             await _classEnrollmentRepository.SaveChangesAsync();
-            return true; 
+
+            return true;
         }
 
-        return false; 
+        return false;
     }
 }
