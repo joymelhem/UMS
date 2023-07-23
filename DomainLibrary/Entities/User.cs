@@ -8,7 +8,7 @@ public partial class User
 
     public long RoleId { get; set; }
 
-    public string FirebaseID { get; set; } = null!;
+    public string FirebaseId { get; set; } = null!;
 
     public string Email { get; set; } = null!;
 
