@@ -13,11 +13,9 @@ namespace UMS.Api.Controllers;
 public class UserController : ControllerBase
 {    
     private readonly IMediator _mediator;
-
     public UserController(IMediator mediator)
     {
         _mediator = mediator;
-
     }
     [HttpGet("{id}")]
     [EnableQuery]
@@ -38,6 +36,7 @@ public class UserController : ControllerBase
         }
         return BadRequest("Failed to create course.");
     }
+    
     [HttpPost("Add Session Time")]
     public async Task<IActionResult> AddSessionTime([FromBody] AddSessionTimeCommand request)
     {
@@ -59,6 +58,7 @@ public class UserController : ControllerBase
         }
         return BadRequest("Failed to register Teacher Per Course.");
     }
+    
     [HttpPost("Add Teacher Per Course per Session Time")]
     public async Task<IActionResult> AddTeacherPerCoursePerSessionTime([FromBody] AddTeacherPerCoursePerSessionTimeCommand request)
     {
