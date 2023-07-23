@@ -18,15 +18,22 @@ public class UserController : ControllerBase
         _mediator = mediator;
     }
     [HttpGet("{id}")]
-    [EnableQuery]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetByIdQuery(id));
         return Ok(result);
     }
     
+    [HttpGet("All Courses")]
+    [EnableQuery]
+    public async Task<IActionResult> GetAllCourses()
+    {
+        var result = await _mediator.Send(new GetAllCoursesQuery());
+        return Ok(result);
+    }
+    
     [HttpPost("Add Course")]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public async Task<IActionResult> AddCourse([FromBody] AddCourseCommand request)
     {
         var result = await _mediator.Send(request);

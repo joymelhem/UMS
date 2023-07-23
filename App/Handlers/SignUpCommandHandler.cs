@@ -14,7 +14,6 @@ public class SignupCommandHandler : IRequestHandler<SignupCommand, SignUpRespons
     {
         _httpClient = httpClient;
     }
-
     public async Task<SignUpResponse> Handle(SignupCommand request, CancellationToken cancellationToken)
     {
         try
