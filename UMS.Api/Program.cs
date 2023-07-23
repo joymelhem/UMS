@@ -26,6 +26,10 @@ builder.Services.AddTransient<ITeacherPerCourseRepository, TeacherPerCourseRepos
 builder.Services.AddTransient<ITeacherPerCoursePerSessionTimeRepository, TeacherPerCoursePerSessionTimeRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetByIdQueryHandler>(
 ));
+builder.Services.AddHttpClient("FirebaseClient", c =>
+{
+    c.BaseAddress = new Uri("https://identitytoolkit.googleapis.com/v1/accounts");
+});
 builder.Services.AddDbContext<PostgresContext>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
