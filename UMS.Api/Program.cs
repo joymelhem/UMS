@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 using App.Handlers;
 using Persistence.Repositories;
 using DomainLibrary.Interfaces;
@@ -6,6 +8,7 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -64,13 +67,31 @@ builder.Services
         options.Authority = "https://securetoken.google.com/ums-31836";
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidIssuer = "https://securetoken.google.com/my-project-id",
-            ValidateAudience = true,
-            ValidAudience = "ums-31836",
-            ValidateLifetime = true
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("wVeMNEEqCZVo7OZdByT8eIO34PvEqfXyHWJe3lVWusg="))
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1"); 
+    });
+
+    options.AddPolicy("TeacherOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2"); 
+    });
+
+    options.AddPolicy("StudentOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "3"); 
+    });
+});
 builder.Configuration.AddJsonFile("appsettings.json");
 
 var app = builder.Build();

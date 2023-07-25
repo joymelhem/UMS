@@ -20,6 +20,8 @@
       </PackageReference>
       <PackageReference Include="Npgsql" Version="7.0.4" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
+      <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
     </ItemGroup>
 
 </Project>

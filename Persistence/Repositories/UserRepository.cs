@@ -25,5 +25,8 @@ public class UserRepository : IUserRepository
         await _postgresContext.SaveChangesAsync();
     }
     
-    
+    public async Task<User> GetByEmail(string email)
+    {
+        return await _postgresContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+    }
 }

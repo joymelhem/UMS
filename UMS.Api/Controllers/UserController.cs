@@ -33,7 +33,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Course")]
-    [Authorize]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> AddCourse([FromBody] AddCourseCommand request)
     {
         var result = await _mediator.Send(request);
@@ -45,6 +45,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Session Time")]
+    [Authorize(Policy = "TeacherOnly")]
     public async Task<IActionResult> AddSessionTime([FromBody] AddSessionTimeCommand request)
     {
         var result = await _mediator.Send(request);
@@ -56,6 +57,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Teacher Per Course")]
+    [Authorize(Policy = "TeacherOnly")]
     public async Task<IActionResult> AddTeacherPerCourse([FromBody] AddTeacherPerCourseCommand request)
     {
         var result = await _mediator.Send(request);
@@ -67,6 +69,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Add Teacher Per Course per Session Time")]
+    [Authorize(Policy = "TeacherOnly")]
     public async Task<IActionResult> AddTeacherPerCoursePerSessionTime([FromBody] AddTeacherPerCoursePerSessionTimeCommand request)
     {
         var result = await _mediator.Send(request);
@@ -78,6 +81,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Enroll in Class")]
+    [Authorize(Policy = "StudentOnly")]
     public async Task<IActionResult> AddClassEnrollment([FromBody] AddClassEnrollmentCommand request)
     {
         var result = await _mediator.Send(request);
