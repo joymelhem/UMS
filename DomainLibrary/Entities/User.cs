@@ -11,6 +11,10 @@ public partial class User
     public string KeycloakId { get; set; } = null!;
 
     public string Email { get; set; } = null!;
+    
+    public long BranchId { get; set; }
+    
+    public virtual Branch Branch { get; set; }
 
     public virtual ICollection<ClassEnrollment> ClassEnrollments { get; set; } = new List<ClassEnrollment>();
 

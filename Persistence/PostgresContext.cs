@@ -29,6 +29,8 @@ public partial class PostgresContext : DbContext
     public virtual DbSet<TeacherPerCoursePerSessionTime> TeacherPerCoursePerSessionTimes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    
+    public DbSet<Branch> Branches { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -36,6 +38,13 @@ public partial class PostgresContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Branch>(entity =>
+        {
+            entity.ToTable("Branches");
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.Name);
+        });
+        
         modelBuilder.Entity<ClassEnrollment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("classenrollment_pk");
@@ -60,11 +69,11 @@ public partial class PostgresContext : DbContext
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("courses_pk");
+            entity.HasKey(e => e.Id).HasName("courses_PK");
 
-            entity.HasIndex(e => e.Name, "courses_\"name\"_uindex").IsUnique();
+            entity.HasIndex(e => e.Name, "courses_\"name\"_uindeX").IsUnique();
 
-            entity.HasIndex(e => e.Id, "courses_id_uindex").IsUnique();
+            entity.HasIndex(e => e.Id, "courses_id_uindeX").IsUnique();
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -152,6 +161,12 @@ public partial class PostgresContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("users_role_id_fk");
+            
+            entity.HasOne(e => e.Branch)
+                .WithMany(b => b.Users)
+                .HasForeignKey(e => e.BranchId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
         });
 
         OnModelCreatingPartial(modelBuilder);
