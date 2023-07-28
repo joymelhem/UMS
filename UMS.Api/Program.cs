@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Models;
+using Persistence.Services;
 using UMS.Api.Middleware;
 
 
@@ -28,6 +29,11 @@ builder.Services.AddTransient<IClassEnrollmentRepository, ClassEnrollmentReposit
 builder.Services.AddTransient<ITeacherPerCourseRepository, TeacherPerCourseRepository>();
 builder.Services.AddScoped<ITenantContext, TenantContext>();
 builder.Services.AddTransient<ITeacherPerCoursePerSessionTimeRepository, TeacherPerCoursePerSessionTimeRepository>();
+builder.Services.AddSingleton<FirebaseMailService>(provider =>
+{
+    var firebaseAdminSdkJsonPath = "firebaseconfig.json";
+    return new FirebaseMailService(firebaseAdminSdkJsonPath);
+});
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetByIdQueryHandler>(
 ));
 builder.Services.AddHttpClient("FirebaseClient", c =>

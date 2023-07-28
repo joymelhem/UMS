@@ -2,6 +2,7 @@ using App.Commands;
 using DomainLibrary.Entities;
 using DomainLibrary.Interfaces;
 using MediatR;
+using Persistence.Services;
 
 namespace App.Handlers;
 
@@ -10,16 +11,16 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
     private readonly IClassEnrollmentRepository _classEnrollmentRepository;
     private readonly ITeacherPerCourseRepository _teacherPerCourseRepository;
     private readonly IUserRepository _userRepository;
-    private readonly ICourseRepository _courseRepository;
-
-    public AddClassEnrollmentCommandHandler(ICourseRepository courseRepository,IClassEnrollmentRepository classEnrollmentRepository,
+    private readonly FirebaseMailService _mailService;
+    
+    public AddClassEnrollmentCommandHandler(FirebaseMailService mailService,IClassEnrollmentRepository classEnrollmentRepository,
         ITeacherPerCourseRepository teacherPerCourseRepository,
         IUserRepository userRepository)
     {
         _classEnrollmentRepository = classEnrollmentRepository;
         _teacherPerCourseRepository = teacherPerCourseRepository;
         _userRepository = userRepository;
-        _courseRepository = courseRepository;
+        _mailService = mailService;
     }
 
     public async Task<bool> Handle(AddClassEnrollmentCommand request, CancellationToken cancellationToken)
@@ -31,10 +32,10 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
             return false;
         }
 
-        //var dateNow = DateOnly.FromDateTime(DateTime.Now);
-        //if (dateNow >= course.EnrolmentDateRange.Value.LowerBound &&
-        //    dateNow <= course.EnrolmentDateRange.Value.UpperBound)
-       // {
+        var dateNow = DateOnly.FromDateTime(DateTime.Now);
+        if (dateNow >= course.EnrolmentDateRange.Value.LowerBound &&
+            dateNow <= course.EnrolmentDateRange.Value.UpperBound)
+        {
             var classEnrollment = new ClassEnrollment
             {
                 ClassId = course.Id,
@@ -42,10 +43,12 @@ public class AddClassEnrollmentCommandHandler : IRequestHandler<AddClassEnrollme
             };
             _classEnrollmentRepository.Add(classEnrollment);
             await _classEnrollmentRepository.SaveChangesAsync();
-
+            var subject = "Class Enrollment Confirmation";
+            var body = $"Dear {student.Name}, you have successfully enrolled in {course.Name}.";
+            await _mailService.SendMail(student.Email, subject, body);
             return true;
-        //}
+        }
 
-        //return false;
+        return false;
     }
 }

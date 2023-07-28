@@ -1,10 +1,9 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using App.Commands;
 using DomainLibrary.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
+namespace UMS.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -39,7 +38,3 @@ public class AuthController : ControllerBase
         return Ok(new { Token = response.idToken });
     }
 }
-
-
-
-
