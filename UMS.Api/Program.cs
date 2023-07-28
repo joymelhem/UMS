@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence.Models;
+using UMS.Api.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ISessionTimeRepository, SessionTimeRepository>();
 builder.Services.AddTransient<IClassEnrollmentRepository, ClassEnrollmentRepository>();
 builder.Services.AddTransient<ITeacherPerCourseRepository, TeacherPerCourseRepository>();
+builder.Services.AddScoped<ITenantContext, TenantContext>();
 builder.Services.AddTransient<ITeacherPerCoursePerSessionTimeRepository, TeacherPerCoursePerSessionTimeRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetByIdQueryHandler>(
 ));
@@ -102,9 +104,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseMiddleware<TenantMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -6,6 +6,7 @@ using App.Commands;
 using DomainLibrary.Entities;
 using DomainLibrary.Interfaces;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
@@ -49,7 +50,8 @@ namespace App.Handlers
                         var claims = new[]
                         {
                             new Claim(ClaimTypes.Role, user.RoleId.ToString()),
-                            new Claim("email", user.Email) 
+                            new Claim("email", user.Email) ,
+                            new Claim("branchid", user.branchid.ToString())
                         };
                         var tokenHandler = new JwtSecurityTokenHandler();
                         var key = Encoding.ASCII.GetBytes(_jwtSecretKey);

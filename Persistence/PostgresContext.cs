@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using DomainLibrary.Entities;
+using DomainLibrary.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Models;
 
 public partial class PostgresContext : DbContext
 {
+    private readonly ITenantContext _tenantContext;
+
     public PostgresContext()
     {
     }
-
-    public PostgresContext(DbContextOptions<PostgresContext> options)
+    public PostgresContext(DbContextOptions<PostgresContext> options, ITenantContext tenantContext)
         : base(options)
     {
+        _tenantContext = tenantContext;
     }
 
     public virtual DbSet<ClassEnrollment> ClassEnrollments { get; set; }
@@ -38,6 +41,8 @@ public partial class PostgresContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema($"branch{_tenantContext.branchid}");
+        
         modelBuilder.Entity<Branch>(entity =>
         {
             entity.ToTable("Branches");
@@ -164,7 +169,7 @@ public partial class PostgresContext : DbContext
             
             entity.HasOne(e => e.Branch)
                 .WithMany(b => b.Users)
-                .HasForeignKey(e => e.BranchId)
+                .HasForeignKey(e => e.branchid)
                 .OnDelete(DeleteBehavior.Cascade);
             
         });

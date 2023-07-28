@@ -1,6 +1,7 @@
 using App.Commands;
 using App.Queries;
 using DomainLibrary.Entities;
+using DomainLibrary.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,16 +13,25 @@ namespace UMS.Api.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {    
+    private readonly ITenantContext _tenantContext;
     private readonly IMediator _mediator;
-    public UserController(IMediator mediator)
+    public UserController(IMediator mediator, ITenantContext tenantContext)
     {
         _mediator = mediator;
+        _tenantContext = tenantContext;
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
         var result = await _mediator.Send(new GetByIdQuery(id));
         return Ok(result);
+    }
+    
+    [HttpGet("Branch Id")]
+    public IActionResult Get()
+    {
+        long branchId = _tenantContext.branchid;
+        return Ok(branchId);
     }
     
     [HttpGet("All Courses")]
@@ -90,5 +100,12 @@ public class UserController : ControllerBase
             return Ok("Enrollment registered successfully.");
         }
         return BadRequest("Failed to register Enrollment.");
+    }
+    
+    [HttpGet("GetCommonStudents")]
+    public async Task<ActionResult<List<string>>> GetCommonStudents([FromQuery] long teacherId1, [FromQuery] long teacherId2)
+    {
+        var commonStudents = await _mediator.Send(new GetCommonStudentsQuery(teacherId1, teacherId2));
+        return Ok(commonStudents);
     }
 }

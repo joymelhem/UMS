@@ -20,11 +20,7 @@ public class CourseRepository : ICourseRepository
         return _postgresContext.Courses.Find(id);
     }
 
-    public Course GetByName(string name)
-    {
-        return _postgresContext.Courses.Find(name);
-    }
-
+ 
     public async Task<List<Course>> Delete(long id)
     {
         var student = _postgresContext.Courses.Find(id);
@@ -42,12 +38,6 @@ public class CourseRepository : ICourseRepository
     public async Task<List<Course>> GetAll()
     {
         return _postgresContext.Courses.ToList();
-    }
-
-    public Course Update(Course course)
-    {
-        _postgresContext.Courses.Update(course);
-        return _postgresContext.Courses.Find(course);
     }
 
     public void Add(Course course)

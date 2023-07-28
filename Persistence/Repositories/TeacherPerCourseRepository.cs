@@ -31,4 +31,23 @@ public class TeacherPerCourseRepository : ITeacherPerCourseRepository
     {
         await _postgresContext.SaveChangesAsync();
     }
+    public async Task<List<User>> GetStudentsByTeacherId(long teacherId)
+    {
+        var students = await _postgresContext.Users
+            .Where(u => u.RoleId == 3) 
+            .Where(u => u.TeacherPerCourses.Any(tpc => tpc.TeacherId == teacherId))
+            .ToListAsync();
+        return students;
+    }
+    
+    public async Task<List<string>> GetCommonStudents(long teacherId1, long teacherId2)
+    {
+        var commonStudents = await _postgresContext.ClassEnrollments
+            .Include(classEnrollments => classEnrollments.Class)
+            .Where(ce => ce.Class.TeacherId == teacherId1 || ce.Class.TeacherId == teacherId2)
+            .Select(x => x.Student.Name)
+            .Distinct()
+            .ToListAsync();
+        return commonStudents;
+    }
 }

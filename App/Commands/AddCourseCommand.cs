@@ -9,5 +9,7 @@ public class AddCourseCommand : IRequest<bool>
 {
     public string CourseName { get; set; }
     public int MaximumStudents { get; set; }
-    public NpgsqlRange<DateOnly>? EnrollmentDateRange { get; set; }
+    public string LowerBound { get; set; }
+    public string UpperBound { get; set; }
+
 }
