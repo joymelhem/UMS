@@ -17,7 +17,6 @@ public class GetCommonStudentsQueryHandler : IRequestHandler<GetCommonStudentsQu
 
     public async Task<List<string>> Handle(GetCommonStudentsQuery request, CancellationToken cancellationToken)
     {
-        var commonStudents = await _teacherPerCourseRepository.GetCommonStudents(request.TeacherId1, request.TeacherId2);
-        return commonStudents;
+        return await _teacherPerCourseRepository.GetCommonStudents(request.TeacherId1, request.TeacherId2);
     }
 }

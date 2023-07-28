@@ -50,4 +50,27 @@ public class TeacherPerCourseRepository : ITeacherPerCourseRepository
             .ToListAsync();
         return commonStudents;
     }
+    
+    public async Task<List<GenderDistributionDto>> GetGenderDistributionByCourse()
+    {
+        var genderDistribution = await _postgresContext.TeacherPerCourses
+            .Join(_postgresContext.Users,
+                tpc => tpc.TeacherId,
+                user => user.Id,
+                (tpc, user) => new { tpc.CourseId, user.Gender })
+            .Join(_postgresContext.Courses,
+                data => data.CourseId,
+                course => course.Id,
+                (data, course) => new { course.Name, data.Gender })
+            .GroupBy(data => new { data.Name, data.Gender })
+            .Select(group => new GenderDistributionDto
+            {
+                CourseName = group.Key.Name,
+                Gender = group.Key.Gender,
+                Count = group.Count()
+            })
+            .ToListAsync();
+
+        return genderDistribution;
+    }
 }

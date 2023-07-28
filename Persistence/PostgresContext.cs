@@ -155,13 +155,15 @@ public partial class PostgresContext : DbContext
             entity.HasIndex(e => e.Email, "users_\"email\"_uindex").IsUnique();
 
             entity.HasIndex(e => e.Id, "users_\"id\"_uindex").IsUnique();
-
+            
             entity.HasIndex(e => e.KeycloakId, "users_\"keycloackid\"_uindex").IsUnique();
+            entity.HasIndex(e => e.Gender);
 
             entity.Property(e => e.Id).HasDefaultValueSql("nextval('\"Users_id_seq\"'::regclass)");
             entity.Property(e => e.Name).HasColumnType("character varying");
             entity.Property(e => e.RoleId).ValueGeneratedOnAdd();
-
+            entity.Property(e => e.Gender).HasMaxLength(10);
+            
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Restrict)

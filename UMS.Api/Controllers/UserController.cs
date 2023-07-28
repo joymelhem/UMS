@@ -102,10 +102,17 @@ public class UserController : ControllerBase
         return BadRequest("Failed to register Enrollment.");
     }
     
-    [HttpGet("GetCommonStudents")]
+    [HttpGet("Get Common Students")]
     public async Task<ActionResult<List<string>>> GetCommonStudents([FromQuery] long teacherId1, [FromQuery] long teacherId2)
     {
         var commonStudents = await _mediator.Send(new GetCommonStudentsQuery(teacherId1, teacherId2));
         return Ok(commonStudents);
+    }
+    
+    [HttpGet("Get Gender Distribution By Course")]
+    public async Task<ActionResult<List<GenderDistributionDto>>> GenderDistribution()
+    {
+        var genderDistribution = await _mediator.Send(new GetGenderDistributionByCourseQuery());
+        return Ok(genderDistribution);
     }
 }

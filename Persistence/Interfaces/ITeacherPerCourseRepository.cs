@@ -10,4 +10,5 @@ public interface ITeacherPerCourseRepository
     void Add(TeacherPerCourse teacherPerCourse);
     Task SaveChangesAsync();
     Task<List<string>> GetCommonStudents(long teacherId1, long teacherId2);
+    Task<List<GenderDistributionDto>> GetGenderDistributionByCourse();
 }
