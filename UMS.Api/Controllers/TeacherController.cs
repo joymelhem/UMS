@@ -1,6 +1,4 @@
 using App.Commands;
-using App.Queries;
-using DomainLibrary.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,19 +52,4 @@ public class TeacherController: ControllerBase
         return BadRequest("Failed to register Teacher Per Course Per Session Time.");
     }
     
-    [HttpGet("Get Common Students")]
-    [Authorize(Policy = "TeacherOnly")]
-    public async Task<ActionResult<List<string>>> GetCommonStudents([FromQuery] long teacherId1, [FromQuery] long teacherId2)
-    {
-        var commonStudents = await _mediator.Send(new GetCommonStudentsQuery(teacherId1, teacherId2));
-        return Ok(commonStudents);
-    }
-    
-    [HttpGet("Get Gender Distribution By Course")]
-    [Authorize(Policy = "TeacherOnly")]
-    public async Task<ActionResult<List<GenderDistributionDto>>> GenderDistribution()
-    {
-        var genderDistribution = await _mediator.Send(new GetGenderDistributionByCourseQuery());
-        return Ok(genderDistribution);
-    }
 }

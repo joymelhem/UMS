@@ -19,20 +19,10 @@ public class CourseRepository : ICourseRepository
     {
         return _postgresContext.Courses.Find(id);
     }
-
- 
-    public async Task<List<Course>> Delete(long id)
+    
+    public void Delete(Course course)
     {
-        var student = _postgresContext.Courses.Find(id);
-
-        if (student != null)
-        {
-            _postgresContext.Courses.Remove(student);
-            await _postgresContext.SaveChangesAsync();
-        }
-
-        var updatedStudents = await _postgresContext.Courses.ToListAsync();
-        return updatedStudents;
+        _postgresContext.Courses.Remove(course);
     }
 
     public async Task<List<Course>> GetAll()
