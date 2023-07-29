@@ -29,7 +29,7 @@ This API was made as a project for the backend module at inmind.ai and was desig
 - Add Teacher Per Course
 - Add Teacher Per Course Per Session Time
 
-### 6. General Endpoints:
+### 6. General Endpoints
 - Get endpoints for getting course by its id and getting branchid.
 - Implemented OData for Get All Courses endpoint.
 
