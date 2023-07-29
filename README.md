@@ -8,7 +8,7 @@ This API was made as a project for the backend module at inmind.ai and was desig
 
 ## Features
 
-### 1. Schema-Based Multitenancy:
+### 1. Schema-Based Multitenancy
 - Schema-based multitenancy was implemented by saving the branchid for a user inside the JWT claim that is returned by the **login** endpoint, the id is extracted from the claim through a middleware **after** authentication.
 
 ### 2. Role-Based Authentication and Authorization
