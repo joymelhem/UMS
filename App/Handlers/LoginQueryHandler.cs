@@ -6,7 +6,6 @@ using App.Commands;
 using DomainLibrary.Entities;
 using DomainLibrary.Interfaces;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 

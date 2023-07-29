@@ -1,14 +1,9 @@
-using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using App.Handlers;
 using Persistence.Repositories;
 using DomainLibrary.Interfaces;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.OData;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;

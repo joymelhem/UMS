@@ -1,5 +1,4 @@
 using App.Commands;
-using App.Queries;
 using DomainLibrary.Entities;
 using DomainLibrary.Interfaces;
 using MediatR;

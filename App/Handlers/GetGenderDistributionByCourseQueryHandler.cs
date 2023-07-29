@@ -2,8 +2,6 @@ using App.Queries;
 using DomainLibrary.Entities;
 using DomainLibrary.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Persistence.Models;
 
 namespace App.Handlers;
 
